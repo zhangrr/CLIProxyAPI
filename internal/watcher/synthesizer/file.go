@@ -76,6 +76,10 @@ func (s *FileSynthesizer) Synthesize(ctx *SynthesisContext) ([]*coreauth.Auth, e
 		if p, ok := metadata["proxy_url"].(string); ok {
 			proxyURL = p
 		}
+		// Use antigravity-specific proxy if provider is antigravity and no per-auth proxy is set
+		if provider == "antigravity" && proxyURL == "" && cfg != nil {
+			proxyURL = strings.TrimSpace(cfg.AntigravityProxy)
+		}
 
 		prefix := ""
 		if rawPrefix, ok := metadata["prefix"].(string); ok {

@@ -1,3 +1,4 @@
+
 package management
 
 import (
@@ -1445,6 +1446,12 @@ func (h *Handler) RequestAntigravityToken(c *gin.Context) {
 		}
 
 		httpClient := util.SetProxy(&h.cfg.SDKConfig, &http.Client{})
+        // Use antigravity-specific proxy if configured
+        if h.cfg.AntigravityProxy != "" {
+          proxyConfig := h.cfg.SDKConfig
+          proxyConfig.ProxyURL = h.cfg.AntigravityProxy
+          httpClient = util.SetProxy(&proxyConfig, &http.Client{})
+        }		
 		form := url.Values{}
 		form.Set("code", authCode)
 		form.Set("client_id", antigravityClientID)
@@ -1554,6 +1561,10 @@ func (h *Handler) RequestAntigravityToken(c *gin.Context) {
 		if projectID != "" {
 			metadata["project_id"] = projectID
 		}
+		// Store proxy URL in metadata if antigravity-specific proxy was used
+        if h.cfg.AntigravityProxy != "" {
+          metadata["proxy_url"] = h.cfg.AntigravityProxy
+        }
 
 		fileName := sanitizeAntigravityFileName(email)
 		label := strings.TrimSpace(email)

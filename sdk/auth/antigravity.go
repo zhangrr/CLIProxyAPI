@@ -60,7 +60,12 @@ func (AntigravityAuthenticator) Login(ctx context.Context, cfg *config.Config, o
 		opts = &LoginOptions{}
 	}
 
-	httpClient := util.SetProxy(&cfg.SDKConfig, &http.Client{})
+	// Use antigravity-specific proxy if configured, otherwise fall back to global proxy
+	proxyConfig := cfg.SDKConfig
+	if cfg.AntigravityProxy != "" {
+		proxyConfig.ProxyURL = cfg.AntigravityProxy
+	}
+	httpClient := util.SetProxy(&proxyConfig, &http.Client{})
 
 	state, err := misc.GenerateRandomState()
 	if err != nil {
@@ -154,6 +159,10 @@ func (AntigravityAuthenticator) Login(ctx context.Context, cfg *config.Config, o
 	}
 	if projectID != "" {
 		metadata["project_id"] = projectID
+	}
+	// Store proxy URL in metadata if antigravity-specific proxy was used
+	if cfg.AntigravityProxy != "" {
+		metadata["proxy_url"] = cfg.AntigravityProxy
 	}
 
 	fileName := sanitizeAntigravityFileName(email)

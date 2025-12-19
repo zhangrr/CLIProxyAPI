@@ -85,6 +85,10 @@ type Config struct {
 	// Payload defines default and override rules for provider payload parameters.
 	Payload PayloadConfig `yaml:"payload" json:"payload"`
 
+	// AntigravityProxy defines the proxy URL specifically for Antigravity OAuth authentication.
+	// When set, this proxy will be used for all Antigravity auth entries loaded from JSON files.
+	AntigravityProxy string `yaml:"antigravity-proxy" json:"antigravity-proxy"`
+
 	legacyMigrationPending bool `yaml:"-" json:"-"`
 }
 

@@ -48,6 +48,11 @@ usage-statistics-enabled: false
 # Proxy URL. Supports socks5/http/https protocols. Example: socks5://user:pass@192.168.1.1:1080/
 proxy-url: ""
 
+# Antigravity-specific proxy URL. When set, this proxy will be used for all Antigravity OAuth authentication.
+# This overrides the global proxy-url for Antigravity auth entries loaded from JSON files.
+# Example: socks5://antigravity-proxy.local:1080
+antigravity-proxy: ""
+
 # When true, unprefixed model requests only use credentials without a prefix (except when prefix == model name).
 force-model-prefix: false
 
