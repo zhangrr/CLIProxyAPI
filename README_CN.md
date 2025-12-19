@@ -1,5 +1,23 @@
-# CLI 代理 API
+# CLI 代理 API - Antigravity 自走代理
+----------------------------------------------------------------------------------------------------------------
+Clone自CLIProxyAPI , 配置文件中添加了一个选项
 
+antigravity-proxy: ""
+
+原因是第一次用 ./cli-proxy-api -antigravity-login 登录验证过之后会产生一个json文件
+
+第二次再用 ./cli-proxy-api -config client.yaml 运行的时候，会自动扫描到这个json文件，然后加载antigravity的模型
+
+这样就有问题了。因为全局设置里面有proxy-url的设置，如果配了，所有的api都会走这个代理
+
+那同时还接入了qwen3-coder-plus的模型，都走代理就不对了，只能是antigravity走代理，qwen3不走
+
+如果用Proxifier把cli-proxy-api放入代理，那还是全走，不行。
+
+本来想提个PR，后来一想Claude Code都有了，干脆用它来实战一下。
+
+于是就改出来了。
+----------------------------------------------------------------------------------------------------------------
 [English](README.md) | 中文
 
 一个为 CLI 提供 OpenAI/Gemini/Claude/Codex 兼容 API 接口的代理服务器。
