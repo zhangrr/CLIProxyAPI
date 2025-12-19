@@ -1,4 +1,19 @@
-# CLI Proxy API
+# CLI Proxy API -- Antigravity self proxy
+------------------------------------------------------------------------------------------------
+### Features & Fixes
+
+- **Cloned from:** [CLIProxyAPI](https://github.com/...)
+- **New Config Option:** `antigravity-proxy`
+
+**Reasoning:**
+The initial login (`-antigravity-login`) creates a session JSON file. When running with a config file later, the system auto-loads this session. However, the global `proxy-url` applies to all APIs indiscriminately. 
+
+In a multi-model setup (e.g., using both **Antigravity** and **Qwen3-coder-plus**), this "one-size-fits-all" proxy approach is incorrect—Antigravity may need a proxy while Qwen3 does not. Since process-level proxies (like Proxifier) cannot split traffic by provider, I implemented a dedicated `antigravity-proxy` option to allow granular routing.
+
+antigravity-proxy: ""
+
+*Developed and refactored using Claude Code.*
+------------------------------------------------------------------------------------------------
 
 English | [中文](README_CN.md)
 
